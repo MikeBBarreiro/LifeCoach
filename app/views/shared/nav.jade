@@ -1,3 +1,4 @@
+
 .navbar.navbar-default(role='navigation')
   .container
     .navbar-header
@@ -6,11 +7,11 @@
         span.icon-bar
         span.icon-bar
         span.icon-bar
-      a.navbar-brand(href='/') LifeCoach
+      a.navbar-brand.border-fade(href='/') LifeCoach
 
     .collapse.navbar-collapse#bs-navbar-collapse
       ul.nav.navbar-nav.navbar-right
-        li: a(href='/goals/new') New Goal
+        li: a.border-fade(href='/goals/new') New Goal
         if user
           li
             form.navbar-form(method='post', action='/logout')
@@ -18,6 +19,6 @@
                 input(type='hidden', name='_method', value='delete')
                 button.btn.btn-danger= user.email
         else
-          li: a(href='/register') Register
-          li: a(href='/login') Login
+          li: a.border-fade(href='/register') Register
+          li: a.border-fade(href='/login') Login
 
