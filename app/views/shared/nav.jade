@@ -12,6 +12,7 @@
     .collapse.navbar-collapse#bs-navbar-collapse
       ul.nav.navbar-nav.navbar-right
         li: a.border-fade(href='/goals/new') New Goal
+        li: a.border-fade(href='/goals') Goals
         if user
           li
             form.navbar-form(method='post', action='/logout')

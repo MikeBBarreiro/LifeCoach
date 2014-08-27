@@ -1,0 +1,15 @@
+extends ../shared/template
+block content
+  h2 Goals You will achieve
+
+  table.table.table-striped.table-hover.table-borderd
+    thead
+      th Name
+      th Due
+      th Tags
+    tbody
+      each goal in goals
+        tr
+          td: a(href='/goals/#{goal._id}')= goal.name
+          td= goal.due
+          td= goal.tags

@@ -33,6 +33,9 @@ module.exports = function(app, express){
   app.delete('/logout', users.logout);
   app.get('/goals/new', goals.new);
   app.post('/goals', goals.create);
+  app.get('/goals', goals.index);
+  app.get('/goals/:goalId', goals.show);
+  app.post('/goals/:goalId/tasks', goals.addTask);
 
   console.log('Express: Routes Loaded');
 };

@@ -1,5 +1,5 @@
 /* jshint expr:true */
-/* global describe, it, before */
+/* global describe, it, before, beforeEach */
 
 'use strict';
 
@@ -7,11 +7,18 @@ var expect    = require('chai').expect,
     Goal      = require('../../app/models/goal'),
     dbConnect = require('../../app/lib/mongodb'),
     Mongo     = require('mongodb'),
-    db        = 'life-coach-test';
+    cp        = require('child_process');
+
+process.env.DB = 'life-coach-test';
 
 describe('Goal', function(){
   before(function(done){
-    dbConnect(db, function(){
+    dbConnect(process.env.DB, function(){
+      done();
+    });
+  });
+  beforeEach(function(done){
+    cp.execFile(__dirname + '/../scripts/clean-db.sh', [process.env.DB], {cwd:__dirname + '/../scripts'}, function(err, stdout, stderr){
       done();
     });
   });
@@ -27,6 +34,16 @@ describe('Goal', function(){
         expect(goal.name).to.equal('be a doctor');
         expect(goal.due).to.be.instanceof(Date);
         expect(goal.tags).to.have.length(4);
+        done();
+      });
+    });
+  });
+
+  describe('.findAllByUserId', function(){
+    it('should find all by user Id', function(done){
+      var userId = Mongo.ObjectID('000000000000000000000001');
+      Goal.findAllByUserId(userId, function(err, goals){
+        expect(goals).to.have.length(2);
         done();
       });
     });

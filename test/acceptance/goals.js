@@ -56,11 +56,59 @@ describe('goals', function(){
   });
 
   describe('post /goals', function(){
-    it('should show the new goals page', function(done){
+    it('should create the new goals page and redirect', function(done){
       request(app)
       .post('/goals')
       .set('cookie', cookie)
       .send('name=be+a+doctor&due=2014-11-30&tags=a%2Cb%2Cc%2Cd')
+      .end(function(err, res){
+        expect(res.status).to.equal(302);
+        done();
+      });
+    });
+  });
+
+  describe('get /goals', function(){
+    it('should show the new goals page', function(done){
+      request(app)
+      .get('/goals')
+      .set('cookie', cookie)
+      .end(function(err, res){
+        expect(res.status).to.equal(200);
+        expect(res.text).to.include('Doctor');
+        expect(res.text).to.include('Marathon');
+        done();
+      });
+    });
+  });
+  describe('get /goals/3', function(){
+    it('should show a specific goal page', function(done){
+      request(app)
+      .post('/goals/a00000000000000000000001')
+      .set('cookie', cookie)
+      .end(function(err, res){
+        expect(res.status).to.equal(200);
+        expect(res.text).to.include('marathon');
+        done();
+      });
+    });
+  });
+  it('should redirect', function(done){
+    request(app)
+    .post('/goals/a00000000000000000000003')
+    .set('cookie', cookie)
+    .end(function(err, res){
+      expect(res.status).to.equal(302);
+      done();
+    });
+  });
+
+  describe('post /goals/3/tasks', function(){
+    it('should create a task for a specific goal', function(done){
+      request(app)
+      .post('/goals/a00000000000000000000001/tasks')
+      .set('cookie', cookie)
+      .send('name=Im+On+Way&description=Get+off+Coach%2C+walk+to+the+nearest+collage%2C+apply%2C+graduate%2C+get+a+job%2C+be+a+Doctor%2C+then+quite+and+head+back+to+the+coach&difficulty=Easy&rank=3')
       .end(function(err, res){
         expect(res.status).to.equal(302);
         done();
